@@ -1,10 +1,12 @@
 package gui;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
+
 import application.Main;
 import db.DbIntegrityException;
 import gui.listerners.DataChangeListener;
@@ -15,7 +17,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -23,8 +27,11 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import model.entities.Seller;
+import model.services.DepartmentService;
 import model.services.SellerService;
 
 
@@ -101,26 +108,28 @@ public class SellerListController implements Initializable, DataChangeListener {
 	}
 
 	private void createDialogFarm(Seller obj, String absoluteName, Stage parentStage) {
-		/*try {
+		try {
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
 
-			DeparmentFormController contoller = loader.getController();
+			SellerFormController contoller = loader.getController();
 			contoller.setSeller(obj);
-			contoller.setSellerService(new SellerService());
+			contoller.setServices(new SellerService(), new DepartmentService());
+			contoller.loadAssociatedObjects();
 			contoller.subscribeDataChangeListener(this);
 			contoller.updateFormData();
 
 			Stage dialogStage = new Stage();
-			dialogStage.setTitle("Enter Departament data");
+			dialogStage.setTitle("Enter Seller data");
 			dialogStage.setScene(new Scene(pane));
 			dialogStage.setResizable(false);
 			dialogStage.initOwner(parentStage);
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			dialogStage.showAndWait();
 		} catch (IOException e) {
+			e.printStackTrace();
 			Alerts.showAlert("IO Exception", "Error loading view", e.getMessage(), AlertType.ERROR);
-		}*/
+		}
 	}
 
 	@Override
